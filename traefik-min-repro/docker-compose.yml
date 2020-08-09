@@ -1,0 +1,72 @@
+# https://dev.to/simplecto/my-configuration-for-traefik-2-0-docker-and-letsencrypt-285d
+version: '3.8'
+services:
+  traefik-minrepro:
+    container_name: traefik
+    image: traefik:v2.2
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entryPoints.web.address=:80"
+      - "--entryPoints.websecure.address=:443"
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  reverse-proxy-minrepro:
+    build: ../proxy-middleware
+    command: fresh
+    security_opt:
+      - "seccomp:unconfined"
+    cap_add:
+      - SYS_PTRACE
+    volumes:
+      - ../proxy-middleware:/go/src/github.com/austincollinpena/cookie-issue-min-repro/proxy-middleware
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.reverse-proxy.rule=Host(`api.localhost`)"
+      - "traefik.http.services.reverse-proxy.loadbalancer.server.port=8089"
+      - "traefik.http.middlewares.testheader.headers.accesscontrolalloworiginlist=http://app.localhost"
+      - "traefik.http.middlewares.testheader.headers.allowedhosts=http://app.localhost"
+      - "traefik.http.middlewares.testheader.headers.accesscontrolalloworigin=origin-list-or-null"
+      - "traefik.http.middlewares.testheader.headers.accesscontrolallowheaders=Access-Control-Allow-Origin"
+      - "traefik.http.middlewares.testheader.headers.accesscontrolexposeheaders=Access-Control-Allow-Origin,authorization"
+      - "traefik.http.middlewares.testHeader.Headers.AccessControlAllowMethods=GET,OPTIONS,PUT,DELETE,POST"
+      - "traefik.http.middlewares.testHeader.Headers.isDevelopment=true"
+  react-minrepro:
+    build: ../web-app
+    command: npm run start
+    volumes:
+      - ../web-app:/opt/web
+    links:
+      - reverse-proxy-minrepro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.react.rule=Host(`app.localhost`)"
+      - "traefik.http.services.react.loadbalancer.server.port=3000"
+    restart: on-failure
+  redisMaster-minrepro:
+    image: "redis:alpine"
+    command: redis-server --appendonly yes --requirepass sOmE_sEcUrE_pAsS
+    ports:
+      - "6379:6379"
+    depends_on:
+      - helper-minrepro
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    links:
+      - reverse-proxy-minrepro
+    sysctls:
+      net.core.somaxconn: '511'
+    volumes:
+      - redis-data-minrepro:/data
+  helper-minrepro:
+    image: alpine
+    command: sh -c "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
+    privileged: true
+volumes:
+  redis-data-minrepro:

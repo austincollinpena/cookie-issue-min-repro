@@ -11,8 +11,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2b080d3-fcc7-4cca-a5ce-f0e51fcaedf7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/traefik-min-repro/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/traefik-min-repro/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,9 +120,13 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="192" key="GridCell.Tab.0.right/0.0.1920.1040/1920.-763.1152.2008/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597000524067" />
-    <state x="461" y="164" key="SettingsEditor" timestamp="1597003086382">
+    <state x="461" y="164" key="SettingsEditor" timestamp="1597003625483">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="461" y="164" key="SettingsEditor/0.0.1920.1040/1920.-763.1152.2008/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597003086382" />
+    <state x="461" y="164" key="SettingsEditor/0.0.1920.1040/1920.-763.1152.2008/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597003625483" />
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1597003522015">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.-763.1152.2008/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597003522015" />
   </component>
 </project>

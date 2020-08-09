@@ -38,7 +38,7 @@ services:
       - "traefik.http.middlewares.testHeader.Headers.AccessControlAllowMethods=GET,OPTIONS,PUT,DELETE,POST"
       - "traefik.http.middlewares.testHeader.Headers.isDevelopment=true"
   react-minrepro:
-    build: ../web-app
+    build: ../web
     command: npm run start
     volumes:
       - ../web-app:/opt/web

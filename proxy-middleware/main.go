@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/rs/cors"
@@ -24,8 +23,6 @@ func AddUserIDToCTX() func(http.Handler) http.Handler {
 				Expires: expire,
 				Domain: "app.localhost",
 			}
-
-			fmt.Println("I tried tho")
 			http.SetCookie(w, &cookie)
 			next.ServeHTTP(w, r)
 		})
